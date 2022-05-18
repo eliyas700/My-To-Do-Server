@@ -38,6 +38,19 @@ async function run() {
       const result = await tasksCollection.deleteOne(query);
       res.send(result);
     });
+
+    //Update a Specific Task Item
+    app.put("/tasks", async (req, res) => {
+      const id = req.query.id;
+      const query = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          isCompleted: "true",
+        },
+      };
+      const result = await tasksCollection.updateOne(query, updateDoc);
+      res.send(result);
+    });
   } finally {
   }
 }
