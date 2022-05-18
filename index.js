@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
@@ -29,6 +29,13 @@ async function run() {
       const newTask = req.body;
       console.log(newTask);
       const result = await tasksCollection.insertOne(newTask);
+      res.send(result);
+    });
+    //Delete a Specific Task item
+    app.delete("/tasks/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await tasksCollection.deleteOne(query);
       res.send(result);
     });
   } finally {
